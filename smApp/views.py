@@ -16,3 +16,6 @@ def signup(request):
     UserReg = UserRegistration()
     CustReg = CustomerRegistration()
     return render(request,'signup.html',{"UserReg":UserReg,'CustReg':CustReg})
+
+def adminpage(request):
+    return render(request,'adminindex.html')

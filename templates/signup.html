@@ -1,104 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 {% load static %}
 {% load crispy_forms_tags %}
-
-<html>
+<html lang="en">
 
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-
-  <title>TNI0</title>
-
-  <!-- slider stylesheet -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
-
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
-
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap" rel="stylesheet" />
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
-  <style>
-    .form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* vh stands for viewport height */
-}
-
-form {
-  width: 50%; /* adjust this value to control the form's width */
-}
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sign in </title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/logos/favicon.png' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}" />
 </head>
 
-<body class="sub_page">
-  <div class="hero_area">
-    <!-- header section strats -->
-    <header class="header_section">
-      <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg custom_nav-container">
-          <a class="navbar-brand" href="index.html">
-            <span>
-              SM
-            </span>
-          </a>
-
-          <div class="navbar-collapse" id="">
-            <div class="d-none d-lg-flex ml-auto flex-column flex-lg-row align-items-center mt-3">
-              <ul class="navbar-nav ">
-<!--                <li class="nav-item">-->
-<!--                  <a class="nav-link" href="service.html">-->
-<!--                    <span>Login</span>-->
-<!--                  </a>-->
-<!--                </li>-->
-              </ul>
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <div
+      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-md-8 col-lg-6 col-xxl-3">
+            <div class="card mb-0">
+              <div class="card-body">
+                <p class="text-center">Sign in</p>
+                <form>
+                  {{UserReg|crispy}}
+                  {{CustReg|crispy}}
+                  <a href="./index.html" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</a>
+                  <div class="d-flex align-items-center justify-content-center">
+                    <p class="fs-4 mb-0 fw-bold">New to Modernize?</p>
+                    <a class="text-primary fw-bold ms-2" href=" {% url 'signup' %}">Create an account</a>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </nav>
+        </div>
       </div>
-    </header>
-    <!-- end header section -->
+    </div>
   </div>
-  <div class="form-container">
-    <form method="post">
-      {% csrf_token %}
-      {{UserReg|crispy}}
-      {{CustReg|crispy}}
-
-    </form>
-  </div>
-
-
-
-
-
-
-
-
-
-  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-  <script type="text/javascript" href="{% static 'js/bootstrap.js' %}"></script>
-
-  <script>
-    function openNav() {
-      document.getElementById("myNav").classList.toggle("menu_width");
-      document
-        .querySelector(".custom_menu-btn")
-        .classList.toggle("menu_btn-style");
-    }
-  </script>
+  <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %} "></script>
+  <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 
 </html>

@@ -128,9 +128,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'smApp.User'
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
-CRISPY_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MEDIA_URLS = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
