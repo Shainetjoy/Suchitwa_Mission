@@ -23,3 +23,8 @@ def adminpage(request):
 
 def userHome(request):
     return render(request,'userHome.html')
+
+
+
+def Monitoring(request):
+    return render(request,'MonitoringIndex.html')
