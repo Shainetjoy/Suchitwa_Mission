@@ -19,3 +19,7 @@ def signup(request):
 
 def adminpage(request):
     return render(request,'adminindex.html')
+
+
+def userHome(request):
+    return render(request,'userHome.html')
