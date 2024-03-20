@@ -1,0 +1,52 @@
+{% extends 'user_base.html' %} {% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>how to create full calendar in jquery</title>
+    <!-- *Note: You must have internet connection on your laptop or pc other wise below code is not working -->
+    <!-- CSS for full calender -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css"
+      rel="stylesheet"
+    />
+    <!-- JS for jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- JS for full calender -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+  </head>
+  <body>
+    <h1>Collection Schedule</h1>
+    <div id="calendar"></div>
+  </body>
+  <script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+          header:{
+       left:'prev,next today',
+       center:'title',
+       right:'month,agendaWeek,agendaDay',
+      },
+      selectable:true,
+      selectHelper:true,
+            defaultView: 'month',
+            displayEventTime: false, // Hide event times
+            events: [
+                {% for schedule in schedules %}
+                    {
+                        title: '{{ schedule.place }}',
+                        start: '{{ schedule.date }}',
+                        nextDayThreshold: moment('{{ schedule.time }}', 'HH:mm').format('h:mm A') 
+                        // Add more event properties as needed
+                    },
+                {% endfor %}
+            ],
+            // Additional options
+
+
+        });
+    });
+  </script>
+</html>
+{% endblock %}
