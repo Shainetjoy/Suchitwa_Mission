@@ -1,0 +1,32 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<script>
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    theme: "light1",
+    axisY: {
+      title: "Values",
+    },
+    data: [{
+      type: "column",
+      dataPoints: [
+        { label: "Collected Plastics", y: {{ total_plastic_amount }} },
+        { label: "Noumber Shedules", y: {{ number_of_schedule}} },
+        { label: "Total Revenue", y: {{ total_amount }} },
+        { label: "Total Users", y: {{ user_count }} }
+      ]
+    }]
+  });
+  chart.render();
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+</body>
+</html>
+

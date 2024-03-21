@@ -27,13 +27,17 @@
                 {% csrf_token %}
                 <div class="mb-3">
                   <label for="exampleInputName" class="form-label">Name</label>
-                  <select name="user" class="form-select" id="exampleInputName" aria-describedby="nameHelp">
+                  <select
+                    name="user"
+                    class="form-select"
+                    id="exampleInputName"
+                    aria-describedby="nameHelp"
+                  >
                     {% for i in users %}
-                      <option value="{{ i.user.id }}">{{ i }}</option>
+                    <option value="{{ i.user.id }}">{{ i }}</option>
                     {% endfor %}
                   </select>
                 </div>
-                
 
                 <div class="mb-3">
                   <label for="exampleInputName" class="form-label">PLace</label>
@@ -73,6 +77,19 @@
                   >
                   <input
                     name="collected_amount"
+                    type="number"
+                    class="form-control"
+                    id="exampleInputCollectedAmount"
+                    aria-describedby="nameHelp"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="exampleInputName" class="form-label"
+                    >Amount Of Plastic</label
+                  >
+                  <input
+                    name="plastic_amount"
                     type="number"
                     class="form-control"
                     id="exampleInputCollectedAmount"

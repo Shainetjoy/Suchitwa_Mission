@@ -1,0 +1,34 @@
+<div class="dropdown relative mr-5 md:static">
+  <button
+    class="text-gray-500 menu-btn p-0 m-0 hover:text-gray-900 focus:text-gray-900 focus:outline-none transition-all ease-in-out duration-300"
+  >
+    <i class="fad fa-bells"></i>
+    <strong style="color: red">{{ count }}</strong>
+  </button>
+  <button
+    class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"
+  ></button>
+  <div
+    class="menu hidden rounded bg-white md:right-0 md:w-full shadow-md absolute z-20 right-0 w-84 mt-5 py-2 animated faster"
+  >
+    <div
+      class="px-4 py-2 flex flex-row justify-between items-center capitalize font-semibold text-sm"
+    >
+      <h1>Notifications</h1>
+      <div
+        class="bg-teal-100 border border-teal-200 text-teal-500 text-xs rounded px-1"
+      ></div>
+    </div>
+    <hr />
+
+    <div class="px-4 py-2 mt-2">
+        {% for notification in filtered_data %}
+          <div class="border p-2 rounded mb-2">  <h6>Place: {{ notification.place }}</h6>
+            <h6>Date: {{ notification.date }}</h6>
+            <h6>Time: {{ notification.time }}</h6>
+          </div>
+        {% endfor %}
+      </div>
+      
+  </div>
+</div>

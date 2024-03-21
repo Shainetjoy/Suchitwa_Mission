@@ -37,7 +37,7 @@ class PlasticCollection(models.Model):
     time = models.TimeField(null=True)
     amount_collected = models.DecimalField(max_digits=100, decimal_places=2,null=True)
     payment_status = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='pending')
-
+    plastic_amount = models.CharField(max_length=50,null=True)
     def __str__(self):
         return self.place
 
@@ -50,6 +50,9 @@ class Payment(models.Model):
     nameOnCard = models.CharField(max_length=50,null=True)
     streetAddress = models.CharField(max_length=50,null=True)
     zipCode = models.CharField(max_length=50,null=True)
+    date = models.DateField(auto_now_add = True,null=True)
+    Amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
     
     def __str__(self):
         return self.user_id
@@ -61,11 +64,6 @@ class EducationalResource(models.Model):
     image = models.ImageField(upload_to='educational_resources/', null=True, blank=True)
     def __str__(self):
             return self.title
-
-class PaymentHistory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
-    # Additional fields related to payment history
 
 class PlasticCollectionSchedule(models.Model):
     place = models.CharField(max_length=50,null=True)

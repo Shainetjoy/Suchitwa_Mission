@@ -30,6 +30,12 @@ urlpatterns = [
     path('payment_form/<int:payment_id>/', views.payment_form, name='payment_form'),
     path('payment_success', views.payment_success, name='payment_success'),
     path('payment_confirm/<int:payment_id>/', views.payment_confirm, name='payment_confirm'),
+    path('payment_history', views.payment_history, name='payment_history'),
+    path('notification', views.notification, name='notification'),
+    path('admin_view_payment_list', views.admin_view_payment_list, name='admin_view_payment_list'),
+    path('admin_dashboard', views.admin_dashboard, name='admin_dashboard'),
+
+    path('admin_view_chart', views.admin_view_chart, name='admin_view_chart'),
 
 
 ]

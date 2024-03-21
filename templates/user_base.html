@@ -103,36 +103,36 @@
               <!-- End User Profile -->
 
               <!-- User Inbox -->
-              <a
+              <!-- <a
                 style="text-decoration: none"
                 class="text-black px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
                 href="#"
               >
                 <i class="fad fa-inbox-in text-xs mr-1"></i>
                 My inbox
-              </a>
+              </a> -->
               <!-- End User Inbox -->
 
               <!-- User Tasks -->
-              <a
+              <!-- <a
                 style="text-decoration: none"
                 class="px-4 text-black py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
                 href="#"
               >
                 <i class="fad fa-badge-check text-xs mr-1"></i>
                 Tasks
-              </a>
+              </a> -->
               <!-- End User Tasks -->
 
               <!-- User Chats -->
-              <a
+              <!-- <a
                 style="text-decoration: none"
                 class="px-4 text-black py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
                 href="#"
               >
                 <i class="fad fa-comment-alt-dots text-xs mr-1"></i>
                 Chats
-              </a>
+              </a> -->
               <!-- End User Chats -->
 
               <hr />
@@ -151,64 +151,9 @@
           </div>
           <!-- End User Dropdown -->
 
-          <!-- Notification Dropdown -->
-          <div class="dropdown relative mr-5 md:static">
-            <button
-              class="text-gray-500 menu-btn p-0 m-0 hover:text-gray-900 focus:text-gray-900 focus:outline-none transition-all ease-in-out duration-300"
-            >
-              <i class="fad fa-bells"></i>
-            </button>
-            <button
-              class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"
-            ></button>
-            <div
-              class="menu hidden rounded bg-white md:right-0 md:w-full shadow-md absolute z-20 right-0 w-84 mt-5 py-2 animated faster"
-            >
-              <!-- Notifications -->
-              <div
-                class="px-4 py-2 flex flex-row justify-between items-center capitalize font-semibold text-sm"
-              >
-                <h1>Notifications</h1>
-                <div
-                  class="bg-teal-100 border border-teal-200 text-teal-500 text-xs rounded px-1"
-                >
-                  <strong>5</strong>
-                </div>
-              </div>
-              <hr />
+          {% include 'notification.html' %}
 
-              <!-- Notification Item -->
-              <a
-                class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out"
-                href="#"
-              >
-                <div
-                  class="px-3 py-2 rounded mr-3 bg-gray-100 border border-gray-300"
-                >
-                  <i class="fad fa-birthday-cake text-sm"></i>
-                </div>
-                <div class="flex-1 flex flex-rowbg-green-100">
-                  <div class="flex-1">
-                    <h1 class="text-sm font-semibold">Poll..</h1>
-                    <p class="text-xs text-gray-500">Text here also</p>
-                  </div>
-                  <div class="text-right text-xs text-gray-500">
-                    <p>4 min ago</p>
-                  </div>
-                </div>
-              </a>
-              <hr />
-
-              <div class="px-4 py-2 mt-2">
-                <a
-                  href="#"
-                  class="border border-gray-300 block text-center text-xs uppercase rounded p-1 hover:text-teal-500 transition-all ease-in-out duration-500"
-                  >View all</a
-                >
-              </div>
-              <!-- End View All Notifications -->
-            </div>
-          </div>
+          {% block headermenu %} {% endblock %}
           <!-- End Notification Dropdown -->
         </div>
         <!-- End Right -->
@@ -273,7 +218,7 @@
           </a>
           <a
             style="text-decoration: none"
-            href="./email.html"
+            href="{% url 'payment_history' %}"
             class="mb-3 text-black capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500"
           >
             <i class="bi bi-clock-history"></i>

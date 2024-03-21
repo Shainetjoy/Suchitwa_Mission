@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Customer,User,EducationalResource,PlasticCollectionSchedule,PlasticCollection,Payment
 from .forms import UserRegistration,CustomerRegistration
 from datetime import datetime
+from datetime import date, timedelta
 
 # ------------------------------------------ Auth function start --------------------------------------
 
@@ -32,7 +33,7 @@ def signin(request):
                     return redirect('user_home')
             else:
                 request.session['user_id'] = user.id
-                return redirect('adminHomePage')
+                return redirect('admin_dashboard')
     return render(request,'signin.html')
 
 
@@ -76,12 +77,14 @@ def adminHomePage(request):
 
 def user_base(request):
     user_id = request.session['user_id'] 
-    print('User id is: ',user_id)
+    print('User id is  the: ',user_id)
     user = Customer.objects.filter(user__id=user_id)
+   
     context = {
         'user':user
     }
     return render(request,'user_base.html',context)
+
 
 
 def user_home(request):
@@ -90,11 +93,14 @@ def user_home(request):
     user = Customer.objects.filter(user__id=user_id)
     collections = PlasticCollectionSchedule.objects.all()
     contributions = PlasticCollection.objects.filter(user_id=user_id)
-    print(contributions)
+    payments = Payment.objects.filter(user_id=user_id)
+
+    
     context = {
         'user':user,
         'collections':collections,
-        'contributions':contributions
+        'contributions':contributions,
+        'payments':payments,
     }
     return render(request,'user_home.html',context)
 
@@ -298,11 +304,12 @@ def add_plastic_collection(request):
         time = request.POST.get('time')
         selected_user = request.POST.get('user')
         collected_amount = request.POST.get('collected_amount')
+        plastic_amount = request.POST.get('plastic_amount')
         print(place,date,time)
         formatted_date = datetime.strptime(date, '%Y-%m-%d').date()
 
         PlasticCollection.objects.create(
-            user_id=selected_user,
+            user_id=selected_user,plastic_amount=plastic_amount,
             place=place,date=formatted_date,time=time,amount_collected=collected_amount
         )
     return render(request,'add_plastic_collection.html',context)
@@ -362,15 +369,117 @@ def payment_confirm(request,payment_id):
         nameOnCard = request.POST.get('nameOnCard')
         streetAddress = request.POST.get('streetAddress')
         zipCode = request.POST.get('zipCode')
-        Payment.objects.create(
+        Amount = request.POST.get('Amount')
+
+        print(request.POST,'request isssssss')
+        payment = Payment.objects.create(
             user_id=user_id,payment_id=payment_id,cardNumber=cardNumber,
             cardDate=cardDate,cvc=cvc,nameOnCard=nameOnCard,
-            streetAddress=streetAddress,zipCode=zipCode
+            streetAddress=streetAddress,zipCode=zipCode,Amount=Amount
         )
         PlasticCollection.objects.filter(id=payment_id).update(payment_status='paid')
-
-
-        return redirect('payment_success')
+        if payment:
+            return redirect('payment_success')
+        else:
+            return redirect('payment_list')
     
 def payment_success(request):
-    return render(request,'payment_success.html')
+    user_id = request.session['user_id'] 
+    user = Customer.objects.filter(user__id=user_id)
+
+    context = {
+        'user':user,
+    }
+    return render(request,'payment_success.html',context)
+
+
+def payment_history(request):
+    user_id = request.session['user_id']
+    user = Customer.objects.filter(user__id=user_id)
+    contributions = Payment.objects.filter(user_id=user_id)
+    # id = contributions.id
+    print(contributions,"id iss")
+    context = {
+        'user':user,
+        'contributions':contributions
+    }
+    return render(request,'payment_history.html',context)
+
+
+def notification(request):
+    today = date.today()
+    start_date = today 
+    end_date = today + timedelta(days=2) 
+    filtered_data = PlasticCollectionSchedule.objects.filter(date__range=(start_date, end_date))
+    print(filtered_data)
+    context = {
+        'filtered_data':filtered_data,
+        
+    }
+    return render(request,'notification.html')
+
+
+def admin_view_payment_list(request):
+    user_id = request.session['user_id'] 
+    print('User id is: ',user_id)
+    user = Customer.objects.filter(user__id=user_id)
+    contributions = PlasticCollection.objects.all()
+    print(contributions)
+    context = {
+        'user':user,
+        'contributions':contributions
+    }
+  
+    return render(request,'admin_view_payment_list.html',context)
+
+
+from django.db.models import Sum
+from decimal import Decimal
+
+
+def admin_dashboard(request):
+    user_id = request.session['user_id'] 
+    user = Customer.objects.filter(user__id=user_id)
+    users = Customer.objects.all()
+    plastic_collection = PlasticCollection.objects.all().values()
+    total_plastic_amount = sum(Decimal(item['plastic_amount']) for item in plastic_collection)
+    
+    current_date = date.today()
+    number_of_schedule = PlasticCollectionSchedule.objects.filter(date__gte=current_date)
+
+    total_amount = Payment.objects.aggregate(total=Sum('Amount'))['total']
+    print(total_amount)
+    context = {
+        'user':user,
+        'user_count':users.count(),
+        'total_plastic_amount':total_plastic_amount,
+        'number_of_schedule':number_of_schedule.count(),
+        'total_amount':total_amount,
+
+    }
+    return render(request,'admin_dashboard.html',context)
+
+
+
+def admin_view_chart(request):
+    user_id = request.session['user_id'] 
+    print('User id is: ',user_id)
+    user = Customer.objects.filter(user__id=user_id)
+    users = Customer.objects.all()
+    plastic_collection = PlasticCollection.objects.all().values()
+    total_plastic_amount = sum(Decimal(item['plastic_amount']) for item in plastic_collection)
+    
+    current_date = date.today()
+    number_of_schedule = PlasticCollectionSchedule.objects.filter(date__gte=current_date)
+
+    total_amount = Payment.objects.aggregate(total=Sum('Amount'))['total']
+    print(total_amount,'total amount')
+    context = {
+        'user':user,
+        'user_count':users.count() ,
+        'total_plastic_amount':total_plastic_amount,
+        'number_of_schedule':number_of_schedule.count() ,
+        'total_amount':total_amount,
+
+    }
+    return render(request,'chart.html',context)
