@@ -45,15 +45,14 @@ def signup(request):
             user = user_form.save()
             customer = customer_form.save(commit=False)
             customer.user = user
-            print(request.FILES)
             if 'image' in request.FILES: 
-                
                 customer.image = request.FILES['image'] 
             customer.save()
             return redirect('signin')  
-    else:
-        UserReg = UserRegistration()
-        CustReg = CustomerRegistration()
+        
+
+    UserReg = UserRegistration()
+    CustReg = CustomerRegistration()
 
     return render(request, 'signup.html', {"UserReg":UserReg,'CustReg':CustReg})
 
@@ -70,7 +69,6 @@ def adminHomePage(request):
     context = {
         'admin':admin
     }
-    print(admin)
 
     return render(request,'admin_index.html',context)
 
@@ -154,7 +152,6 @@ def update_approval_status(request, user_id):
     if request.method == 'POST':
         data = request.POST  
         approval_status = data.get('approve')
-        print(approval_status)
         Customer.objects.filter(user__id= user_id).update(approve=approval_status)
         return redirect('users_list')
 
@@ -188,7 +185,6 @@ def educational_content_view(request):
     user_id = request.session['user_id'] 
     user = User.objects.filter(id=user_id).first()
     role = user.is_user
-    print(role)
     contents = EducationalResource.objects.all()
     context = {
         'contents':contents,
@@ -209,7 +205,6 @@ def educational_content_view_user(request):
     user = User.objects.filter(id=user_id).first()
     users = Customer.objects.filter(user__id=user_id)
     role = user.is_user
-    print(role)
     contents = EducationalResource.objects.all()
     context = {
         'contents':contents,
@@ -231,7 +226,6 @@ def add_collection_shedule(request):
         place = request.POST.get('place')
         date = request.POST.get('date')
         time = request.POST.get('time')
-        print(place,date,time)
         PlasticCollectionSchedule.objects.create(
             place=place,date=date,time=time
         )
@@ -261,7 +255,6 @@ def update_collection_schedule(request,collection_id):
         place = request.POST.get('place')
         date = request.POST.get('date')
         time = request.POST.get('time')
-        print(place,date,time)
         formatted_date = datetime.strptime(date, '%Y-%m-%d').date()
 
         PlasticCollectionSchedule.objects.filter(id=collection_id).update(
@@ -291,7 +284,6 @@ def add_plastic_collection(request):
     
     user = Customer.objects.filter(user__id=user_id)
     users = Customer.objects.all()
-    print(users)
     
     context = {
         'user':user,
@@ -305,7 +297,6 @@ def add_plastic_collection(request):
         selected_user = request.POST.get('user')
         collected_amount = request.POST.get('collected_amount')
         plastic_amount = request.POST.get('plastic_amount')
-        print(place,date,time)
         formatted_date = datetime.strptime(date, '%Y-%m-%d').date()
 
         PlasticCollection.objects.create(
@@ -337,7 +328,6 @@ def payment_list(request):
     print('User id is: ',user_id)
     user = Customer.objects.filter(user__id=user_id)
     contributions = PlasticCollection.objects.filter(user_id=user_id)
-    print(contributions)
     context = {
         'user':user,
         'contributions':contributions
@@ -411,7 +401,6 @@ def notification(request):
     start_date = today 
     end_date = today + timedelta(days=2) 
     filtered_data = PlasticCollectionSchedule.objects.filter(date__range=(start_date, end_date))
-    print(filtered_data)
     context = {
         'filtered_data':filtered_data,
         
@@ -424,7 +413,6 @@ def admin_view_payment_list(request):
     print('User id is: ',user_id)
     user = Customer.objects.filter(user__id=user_id)
     contributions = PlasticCollection.objects.all()
-    print(contributions)
     context = {
         'user':user,
         'contributions':contributions
@@ -448,7 +436,6 @@ def admin_dashboard(request):
     number_of_schedule = PlasticCollectionSchedule.objects.filter(date__gte=current_date)
 
     total_amount = Payment.objects.aggregate(total=Sum('Amount'))['total']
-    print(total_amount)
     context = {
         'user':user,
         'user_count':users.count(),

@@ -23,7 +23,7 @@
           <div class="card mb-0" style="padding-top: 10px; padding-bottom: 10px; height: 100%;">
             <div class="card-body">
               <p class="text-center">Sign Up</p>
-              <form method="post" enctype="multipart/form-data">  
+              <form method="POST" enctype="multipart/form-data">  
                 {% csrf_token %}
                 {{ UserReg|crispy }}
                 {{ CustReg|crispy }}
