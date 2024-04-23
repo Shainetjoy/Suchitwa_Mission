@@ -22,11 +22,11 @@
         <div class="col-md-6 col-lg-8 col-xxl-6">
           <div class="card mb-0">
             <div class="card-body">
-              <p class="text-center">Add PLastic</p>
+              <p class="text-center">Add Plastic</p>
               <form action="add_plastic_collection" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
-                  <label for="exampleInputName" class="form-label">Name</label>
+                  <label for="exampleInputName" class="form-label">User name</label>
                   <select
                     name="user"
                     class="form-select"
@@ -34,13 +34,15 @@
                     aria-describedby="nameHelp"
                   >
                     {% for i in users %}
+                    {% if i.role == 'user' %}
                     <option value="{{ i.user.id }}">{{ i }}</option>
+                    {% endif %}
                     {% endfor %}
                   </select>
                 </div>
 
                 <div class="mb-3">
-                  <label for="exampleInputName" class="form-label">PLace</label>
+                  <label for="exampleInputName" class="form-label">Plastic Material</label>
                   <input
                     name="place"
                     type="text"
@@ -84,18 +86,7 @@
                   />
                 </div>
 
-                <div class="mb-3">
-                  <label for="exampleInputName" class="form-label"
-                    >Amount Of Plastic</label
-                  >
-                  <input
-                    name="plastic_amount"
-                    type="number"
-                    class="form-control"
-                    id="exampleInputCollectedAmount"
-                    aria-describedby="nameHelp"
-                  />
-                </div>
+                
 
                 <button type="submit" class="btn btn-primary">Add</button>
               </form>

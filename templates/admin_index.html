@@ -110,7 +110,7 @@
           <!-- End User Dropdown -->
 
           <!-- Notification Dropdown -->
-          <div class="dropdown relative mr-5 md:static">
+          <!-- <div class="dropdown relative mr-5 md:static">
             <button
               class="text-gray-500 menu-btn p-0 m-0 hover:text-gray-900 focus:text-gray-900 focus:outline-none transition-all ease-in-out duration-300"
             >
@@ -123,7 +123,7 @@
               class="menu hidden rounded bg-white md:right-0 md:w-full shadow-md absolute z-20 right-0 w-84 mt-5 py-2 animated faster"
             >
               <!-- Notifications -->
-              <div
+              <!-- <div
                 class="px-4 py-2 flex flex-row justify-between items-center capitalize font-semibold text-sm"
               >
                 <h1>Notifications</h1>
@@ -133,10 +133,10 @@
                   <strong>5</strong>
                 </div>
               </div>
-              <hr />
+              <hr /> -->
 
               <!-- Notification Item -->
-              <a
+              <!-- <a
                 class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out"
                 href="#"
               >
@@ -163,10 +163,10 @@
                   class="border border-gray-300 block text-center text-xs uppercase rounded p-1 hover:text-teal-500 transition-all ease-in-out duration-500"
                   >View all</a
                 >
-              </div>
+              </div> -->
               <!-- End View All Notifications -->
             </div>
-          </div>
+          </div> 
           <!-- End Notification Dropdown -->
         </div>
         <!-- End Right -->
@@ -218,6 +218,15 @@
 
           <a
             style="text-decoration: none"
+            href="{% url 'staff_list' %} "
+            class="mb-3 text-black capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500"
+          >
+            <i class="bi  bi-people"></i>
+            Staffs
+          </a>
+
+          <a
+            style="text-decoration: none"
             href="{% url 'admin_view_payment_list' %}"
             class="mb-3 text-black capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500"
           >
@@ -230,7 +239,7 @@
             class="mb-3 text-black capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500"
           >
             <i class="bi bi-clock-history"></i>
-            PLastic Collection
+            Plastic Collection
           </a>
 
           <a

@@ -15,12 +15,15 @@ class Customer(models.Model):
         ('disapproved', 'Disapproved'),
     ]
 
+    role = models.CharField(max_length=20,null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='customer')
     name = models.CharField(max_length=20)
     phone = models.CharField(max_length=20)
     email = models.EmailField()
     image = models.ImageField(upload_to='customer_images/', null=True, blank=True)
     approve = models.CharField(max_length=20, choices=APPROVAL_CHOICES, default='pending')
+    house_number = models.CharField(max_length=20,null=True) 
+    ward_number = models.CharField(max_length=20,null=True)
 
     def __str__(self):
         return self.name
@@ -66,6 +69,8 @@ class EducationalResource(models.Model):
             return self.title
 
 class PlasticCollectionSchedule(models.Model):
+    staff = models.CharField(max_length=50,null=True)
+    user = models.CharField(max_length=50,null=True)
     place = models.CharField(max_length=50,null=True)
     date = models.DateField()
     time = models.TimeField(null=True)

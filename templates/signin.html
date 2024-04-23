@@ -75,11 +75,16 @@
                       <p class="fs-4 mb-0 fw-bold">
                         Don't you have an Account?
                       </p>
-                      <a
-                        class="text-primary fw-bold ms-2"
-                        href=" {% url 'signup' %}"
-                        >Create an account</a
-                      >
+                      <div class="dropdown">
+                        <a class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                          Select Role
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <li><a class="dropdown-item" href="{% url 'staff_signup' %}?role=staff">Staff</a></li>
+                          <li><a class="dropdown-item" href="{% url 'signup' %}?role=user">User</a></li>
+                        </ul>
+                      </div>
+                      
                     </div>
                   </form>
                 </div>

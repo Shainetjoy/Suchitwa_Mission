@@ -29,7 +29,15 @@ class UserRegistration(UserCreationForm):
 
 
 class CustomerRegistration(forms.ModelForm):
-
+    
     class Meta:
         model = Customer
-        exclude =('user','approve')
+        fields = [ 'name', 'phone', 'email', 'image', 'house_number', 'ward_number']
+        
+
+class StaffRegistration(forms.ModelForm):
+    role = forms.CharField(widget=forms.HiddenInput(), initial='staff') 
+    
+    class Meta:
+        model = Customer
+        fields = ['role', 'name', 'phone', 'email', 'image']

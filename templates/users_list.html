@@ -29,13 +29,14 @@
     </thead>
     <tbody>
       {% for user in users %}
+      {% if user.role == 'user' %}
       <tr>
         <td>{{forloop.counter}}</td>
         <td>
           <img style="width: 70px; height: 70px" src="{{ user.image.url }}" />
         </td>
         <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
+        <td style="text-transform: lowercase;">{{ user.email }}</td>
         <td>{{ user.phone }}</td>
         {% if user.approve == 'pending' %}
         <td style="color: #bac614">{{ user.approve }}</td>
@@ -83,6 +84,7 @@
           <a href="admin_view_users/{{ user.user.id }}/"  type="button" class="btn btn-primary">View</a>
         </td>
       </tr>
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>

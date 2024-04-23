@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Customer,User,EducationalResource,PlasticCollectionSchedule,PlasticCollection,Payment
-from .forms import UserRegistration,CustomerRegistration
+from .forms import UserRegistration,CustomerRegistration,StaffRegistration
 from datetime import datetime
 from datetime import date, timedelta
 
@@ -29,8 +29,12 @@ def signin(request):
                     messages.warning(request, 'Your account approval is pending or disapproved. Please wait for approval by the admin')
                     return render(request, 'signin.html')
                 else:
-                    request.session['user_id'] = user.id
-                    return redirect('user_home')
+                    if user_data.role == 'user':
+                        request.session['user_id'] = user.id
+                        return redirect('user_home')
+                    elif user_data.role == 'staff':
+                        request.session['user_id'] = user.id
+                        return redirect('staff_home')
             else:
                 request.session['user_id'] = user.id
                 return redirect('admin_dashboard')
@@ -45,6 +49,7 @@ def signup(request):
             user = user_form.save()
             customer = customer_form.save(commit=False)
             customer.user = user
+            customer.role = 'user'
             if 'image' in request.FILES: 
                 customer.image = request.FILES['image'] 
             customer.save()
@@ -55,6 +60,30 @@ def signup(request):
     CustReg = CustomerRegistration()
 
     return render(request, 'signup.html', {"UserReg":UserReg,'CustReg':CustReg})
+
+
+def staff_signup(request):
+    if request.method == 'POST':
+        user_form = UserRegistration(request.POST)
+        customer_form = StaffRegistration(request.POST)
+        print(user_form)
+
+        if user_form.is_valid() and customer_form.is_valid():
+            user = user_form.save()
+            customer = customer_form.save(commit=False)
+            customer.user = user
+            customer.role = 'staff'
+            if 'image' in request.FILES: 
+                customer.image = request.FILES['image'] 
+            customer.save()
+            return redirect('signin')  
+        else:
+            print(user_form.is_valid(),'---------------------',customer_form.is_valid())
+        
+    UserReg = UserRegistration()
+    CustReg = StaffRegistration()
+
+    return render(request, 'staff_signup.html', {"UserReg":UserReg,'CustReg':CustReg})
 
 def logout_view(request):
     logout(request)  # Logout the user
@@ -89,7 +118,7 @@ def user_home(request):
     user_id = request.session['user_id'] 
     print('User id is: ',user_id)
     user = Customer.objects.filter(user__id=user_id)
-    collections = PlasticCollectionSchedule.objects.all()
+    collections = PlasticCollectionSchedule.objects.filter(user=user_id)
     contributions = PlasticCollection.objects.filter(user_id=user_id)
     payments = Payment.objects.filter(user_id=user_id)
 
@@ -146,6 +175,13 @@ def users_list(request):
     return render(request,'users_list.html',context)
 
 
+
+def staff_list(request):
+    users = Customer.objects.all()
+    context = {
+        'users':users
+    }
+    return render(request,'staff_list.html',context)
 
 
 def update_approval_status(request, user_id):
@@ -217,17 +253,19 @@ def educational_content_view_user(request):
 def add_collection_shedule(request):
     user_id = request.session['user_id'] 
     
-    user = Customer.objects.filter(user__id=user_id)
+    user = Customer.objects.all()
     context = {
         'user':user
     }
+    print(user_id,'--------')
     if request.method == 'POST':
-        user = Customer.objects.filter(user__id=user_id).first()
+        staff = request.POST.get('staff')
+        user = request.POST.get('user')
         place = request.POST.get('place')
         date = request.POST.get('date')
         time = request.POST.get('time')
         PlasticCollectionSchedule.objects.create(
-            place=place,date=date,time=time
+            place=place,date=date,time=time,staff=staff,user=user
         )
     return render(request,'add_collection_shedule.html',context)
 
@@ -270,7 +308,7 @@ def user_view_collection_shedule(request):
     print('User id is: ',user_id)
     user = Customer.objects.filter(user__id=user_id)
 
-    schedules = PlasticCollectionSchedule.objects.all()
+    schedules = PlasticCollectionSchedule.objects.filter(user=user_id)
     context = {
         'user':user,
         'schedules':schedules,
@@ -397,15 +435,17 @@ def payment_history(request):
 
 
 def notification(request):
+    print('notification')
+    user_id = request.session['user_id'] 
     today = date.today()
     start_date = today 
     end_date = today + timedelta(days=2) 
-    filtered_data = PlasticCollectionSchedule.objects.filter(date__range=(start_date, end_date))
+    filtered_data = PlasticCollectionSchedule.objects.filter(date__range=(start_date, end_date), user=user_id)
     context = {
         'filtered_data':filtered_data,
         
     }
-    return render(request,'notification.html')
+    return render(request,'notification.html',context)
 
 
 def admin_view_payment_list(request):
@@ -470,3 +510,21 @@ def admin_view_chart(request):
 
     }
     return render(request,'chart.html',context)
+
+
+def staff_home(request):
+    user_id = request.session['user_id'] 
+    print('User id is: ',user_id)
+    user = Customer.objects.filter(user__id=user_id)
+    collections = PlasticCollectionSchedule.objects.all()
+    contributions = PlasticCollection.objects.filter(user_id=user_id)
+    payments = Payment.objects.filter(user_id=user_id)
+
+    
+    context = {
+        'user':user,
+        'collections':collections,
+        'contributions':contributions,
+        'payments':payments,
+    }
+    return render(request,'staff_home.html',context)
